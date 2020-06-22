@@ -60,7 +60,13 @@ class basefiles(object):
         for file in files:
             if not mirror:
                 try:
-                    self.urls.append(globals()[host](db=db, token=token_anonfiles).upload(filename=file))
+                    if host == "AnonFiles":
+                        base = AnonFiles(db=db, token=token_anonfiles)
+                    elif host == "BayFiles":
+                        base = BayFiles(db=db, token=token_bayfiles)
+                    elif host == "ForumFiles":
+                        base = ForumFiles(db=db)
+                    self.urls.append(base.upload(filename=file))
                 except Exception as e:
                     p(self.instance+f"<upload> {file} failed to upload", e)
             else:
