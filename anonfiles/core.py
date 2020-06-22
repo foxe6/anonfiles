@@ -45,23 +45,24 @@ class basefiles(object):
             process.communicate()
             files = [join_path(temp_dir, temp, file) for file in os.listdir(join_path(temp_dir, temp))]
             p(instance+f"<zipped> {item} has {len(files)} parts", files)
+        self.urls = []
         for file in files:
             if not mirror:
                 try:
-                    globals()[host](db=db, token=token_anonfiles).upload(filename=file)
+                    self.urls.append(globals()[host](db=db, token=token_anonfiles).upload(filename=file))
                 except Exception as e:
                     p(instance+f"<upload> {file} failed to upload", e)
             else:
                 try:
-                    AnonFiles(db=db, token=token_anonfiles).upload(filename=file)
+                    self.urls.append(AnonFiles(db=db, token=token_anonfiles).upload(filename=file))
                 except Exception as e:
                     p(instance+f"<upload> {file} failed to upload", e)
                 try:
-                    BayFiles(db=db, token=token_bayfiles).upload(filename=file)
+                    self.urls.append(BayFiles(db=db, token=token_bayfiles).upload(filename=file))
                 except Exception as e:
                     p(instance+f"<upload> {file} failed to upload", e)
                 try:
-                    ForumFiles(db=db).upload(filename=file)
+                    self.urls.append(ForumFiles(db=db).upload(filename=file))
                 except Exception as e:
                     p(instance+f"<upload> {file} failed to upload", e)
         p(instance+f"<ended> {item}")
