@@ -21,7 +21,7 @@ class BaseFiles(object):
         p(self.instance+f"<uploading> {filename} ==> {self.url}", end="")
         response = requests.post(self.url, files={"file": open(filename, "rb")}).json()
         url_short = response["data"]["file"]["url"]["short"]
-        p(self.instance+f"\r<uploaded> {filename} ==> {url_short}")
+        p("\r"+self.instance+f"<uploaded> {filename} ==> {url_short}")
         return response
         # issued = int(time.time())
         # uploaded = int(time.time())
@@ -51,7 +51,4 @@ class ForumFiles(BaseFiles):
         super().__init__(db)
 
 
-
-r = AnonFiles("db.db").upload(r"I:\test\download_more.zip")
-print(r)
 
